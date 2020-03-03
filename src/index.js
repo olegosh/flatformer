@@ -1,5 +1,6 @@
 import './index.css';
 const {sources} = require('./sources');
+const {maps} = require('./maps');
 
 // // console.log(sources);
 // const img = document.createElement('img');
@@ -16,3 +17,5 @@ for (let i = 0; i < sources.length; i += 1) {
     img.classList.add('img');
   });
 }
+
+console.log(maps);
