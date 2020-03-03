@@ -1,0 +1,30 @@
+export const options = {
+  game,
+  width,
+  height,
+  $canvas,
+  context,
+  BGIW: 2048,
+  BGIH: 1546,
+  t: 0,
+  images: [],
+  tiles: [],
+  enemies: [],
+  imagesCounter: 0,
+  $loading,
+  currentLevelIndex: 0,
+  health: 1000,
+  imagesQuantity,
+  moving: false,
+  keys: {},
+  gravity: 0.3,
+  friction: 0.6,
+  crystals: [],
+  crystalKeys = {
+    g: false,
+    y: false,
+    b: false
+  },
+  score: 0,
+  info: false
+};
