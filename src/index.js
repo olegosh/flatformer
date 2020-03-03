@@ -2,6 +2,11 @@ import './index.css';
 import sources from './sources';
 import maps from './maps';
 import { startGame, setStage } from './engine';
+import { FrameCounter } from './fps';
+
+const counter = new FrameCounter(performance.now());
+counter.create();
+counter.frameCount();
 
 let x = 0;
 const width = window.innerWidth;
@@ -19,7 +24,7 @@ const testLevel = () => {
   x = x > 600 ? 0 : x;
 };
 
-// setStage(testLevel);
+setStage(testLevel);
 startGame();
 
 // for (let i = 0; i < sources.length; i += 1) {
