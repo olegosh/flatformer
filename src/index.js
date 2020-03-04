@@ -3,6 +3,10 @@ import sources from './sources';
 import maps from './maps';
 import { startGame, setStage } from './engine';
 import { FrameCounter } from './fps';
+import { loadImages } from './loaders';
+import { options } from './options';
+
+const $loading = options.$loading;
 
 const counter = new FrameCounter(performance.now());
 counter.create();
@@ -24,14 +28,10 @@ const testLevel = () => {
   x = x > 600 ? 0 : x;
 };
 
-setStage(testLevel);
-startGame();
+loadImages(onImagesLoad);
 
-// for (let i = 0; i < sources.length; i += 1) {
-//   let img = document.createElement('img');
-//   img.src = sources[i];
-//   img.addEventListener('load', () => {
-//     document.body.appendChild(img);
-//     img.classList.add('img');
-//   });
-// }
+function onImagesLoad() {
+  setStage(testLevel);
+  $loading.style.display = 'none';
+  startGame();
+}
