@@ -20,7 +20,7 @@ export const options = {
   gravity: 0.3,
   friction: 0.6,
   crystals: [],
-  crystalKeys = {
+  crystalKeys: {
     g: false,
     y: false,
     b: false
