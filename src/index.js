@@ -7,19 +7,16 @@ import { loadImages } from './loaders';
 import { options } from './options';
 
 const $loading = options.$loading;
+const $canvas = options.$canvas = document.getElementById('canvas');
+const width = $canvas.width = options.width = window.innerWidth;
+const height = $canvas.height = options.height = window.innerHeight;
+const context = options.context = $canvas.getContext('2d');
 
 const counter = new FrameCounter(performance.now());
 counter.create();
 counter.frameCount();
 
 let x = 0;
-const width = window.innerWidth;
-const height = window.innerHeight;
-
-const canvas = document.getElementById('canvas');
-canvas.width = width;
-canvas.height = height;
-const context = canvas.getContext('2d');
 
 const testLevel = () => {
   context.clearRect(0, 0, width, height);
