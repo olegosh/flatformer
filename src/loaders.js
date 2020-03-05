@@ -1,5 +1,6 @@
-import { sources } from "./sources";
-import { options } from "./options";
+import { sources } from './sources';
+import { options } from './options';
+
 const images = options.images;
 let imagesCounter = options.imagesCounter;
 const $loading = options.$loading = document.getElementById('loading');

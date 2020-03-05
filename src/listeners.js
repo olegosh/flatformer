@@ -1,5 +1,5 @@
-import { options } from "./options";
-import { startClicking, startTouching, endClicking, endTouching } from "./handlers";
+import { options } from './options';
+import { startClicking, startTouching, endClicking, endTouching } from './handlers';
 
 const $canvas = options.$canvas;
 let moving = options.moving;

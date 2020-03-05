@@ -37,7 +37,7 @@ const bgImg10 = new BackgroundObject(images[10], 0, 0, BGIW, BGIH, 0, 0, width, 
 const bgImg11 = new BackgroundObject(images[11], 0, 0, BGIW, BGIH, 0, -height, width, height, 0);
 const bgImg12 = new BackgroundObject(images[12], 0, 0, BGIW, BGIH, 0, height, width, height, 2);
 
-const crocoMascot = new Mascot(
+const crocoMascot = options.crocoMascot = new Mascot(
   'crocodile',
   crocoMascotFrames,
   crocoMascotFrames.idleR.sw / 8 + 10,
@@ -50,7 +50,7 @@ const crocoMascot = new Mascot(
   50
 );
 
-const tigerMascot = new Mascot(
+const tigerMascot = options.tigerMascot = new Mascot(
   'tiger',
   tigerMascotFrames,
   tigerMascotFrames.idleR.sw / 8 + 10,
@@ -64,7 +64,7 @@ const tigerMascot = new Mascot(
 );
 
 //lives
-for(let q = 0; q < health; q += 100) {
+for (let q = 0; q < health; q += 100) {
   crystals.push(
     new DrawableObject(
       images[40],
@@ -123,7 +123,7 @@ const blueCrystalKey = new DrawableObject(
 
 init();
 
-function init() {
+export function init() {
   crocoMascot.dx = crocoMascotFrames.idleR.sw / 8 + 10;
   crocoMascot.dy = height + crocoMascotFrames.idleR.sh / 4 - 10;
   tigerMascot.dx = tigerMascotFrames.idleR.sw / 8 + 10;
@@ -131,13 +131,13 @@ function init() {
   crystalKeys.g = crystalKeys.y = crystalKeys.b = false;
   enemies.length = 0;
   tiles.length = 0;
-  for(let Q = 0; Q < maps.length; Q += 1) {
+  for (let Q = 0; Q < maps.length; Q += 1) {
     let map = maps[Q];
     tiles[Q] = [];
     enemies[Q] = [];
-    for(let qu = 0; qu < map.length; qu += 1) {
-      for(let q = 0; q < map[qu].length; q += 1) {
-        if(map[qu] == '' || map[qu][q] == ' ') {
+    for (let qu = 0; qu < map.length; qu += 1) {
+      for (let q = 0; q < map[qu].length; q += 1) {
+        if (map[qu] == '' || map[qu][q] == ' ') {
           continue;
         } else {
           tiles[Q].push(
@@ -193,7 +193,7 @@ class Button {
   };
   handle(x, y) {
     let WIW = window.innerWidth;
-    if(x > this.x && x < WIW - 50 &&
+    if (x > this.x && x < WIW - 50 &&
       y > this.y && y < this.y + 50) {
       this.f();
     }
@@ -245,8 +245,8 @@ function drawSky() {
 }
 
 function drawMap(index) {
-  for(let q = tiles[index].length - 1; q >= 0; q -= 1) {
-    if(tiles[index][q].dx < -tiles[index][q].dw ||
+  for (let q = tiles[index].length - 1; q >= 0; q -= 1) {
+    if (tiles[index][q].dx < -tiles[index][q].dw ||
       tiles[index][q].dx > width + tiles[index][q].dw ||
       tiles[index][q].dy < -tiles[index][q].dh ||
       tiles[index][q].dy > height + tiles[index][q].dh) {
@@ -260,7 +260,7 @@ function drawMap(index) {
 }
 
 function checkLives() {
-  switch(health) {
+  switch (health) {
     case 900: crystals.splice(9, 1); break;
     case 800: crystals.splice(8, 1); break;
     case 700: crystals.splice(7, 1); break;
@@ -272,11 +272,11 @@ function checkLives() {
     case 100: crystals.splice(1, 1); break;
     case 0: crystals.splice(0, 1); break;
   }
-  if(health <= 0) {
+  if (health <= 0) {
     setStage(gameOver);
     init();
     health = 1E3;
-    for(let q = 0; q < health; q += 100) {
+    for (let q = 0; q < health; q += 100) {
       crystals.push(
         new DrawableObject(
           images[40],
@@ -299,13 +299,13 @@ function checkLives() {
 }
 
 function checkKeys() {
-  if(crystalKeys.g) {
+  if (crystalKeys.g) {
     greenCrystalKey.draw();
   }
-  if(crystalKeys.y) {
+  if (crystalKeys.y) {
     yellowCrystalKey.draw();
   }
-  if(crystalKeys.b) {
+  if (crystalKeys.b) {
     blueCrystalKey.draw();
   }
 }
@@ -385,8 +385,8 @@ function story() {
   context.fillText('mushroom. Water and lava cause damage too.', width / 2, 270 + 125);
   context.fillText('The crocodile is invulnerable to water.', width / 2, 270 + 150);
   context.fillText('The tiger is invulnerable to lava. Enjoy.', width / 2, 270 + 175);
-  for(let q = buttons.length - 1; q >= 0; q -= 1) {
-    if(buttons[q].b == 'story') {
+  for (let q = buttons.length - 1; q >= 0; q -= 1) {
+    if (buttons[q].b == 'story') {
       buttons[q].o = true;
       buttons[q].draw();
     }
@@ -409,8 +409,8 @@ function controls() {
   context.fillText('of the screen. If you use a keyboard,', width / 2, 270 + 150);
   context.fillText('press the arrow keys to move the', width / 2, 270 + 175);
   context.fillText('character, and the spacebar to jump.', width / 2, 270 + 200);
-  for(let q = buttons.length - 1; q >= 0; q -= 1) {
-    if(buttons[q].b == 'controls') {
+  for (let q = buttons.length - 1; q >= 0; q -= 1) {
+    if (buttons[q].b == 'controls') {
       buttons[q].o = true;
       buttons[q].draw();
     }
@@ -430,8 +430,8 @@ function about() {
   context.fillText('Thank you for playing my game.', width / 2, 270 + 125);
   context.fillText('If you have any questions, feel free to ask', width / 2, 270 + 150);
   context.fillText('them in the comments section. Good luck.', width / 2, 270 + 175);
-  for(let q = buttons.length - 1; q >= 0; q -= 1) {
-    if(buttons[q].b == 'about') {
+  for (let q = buttons.length - 1; q >= 0; q -= 1) {
+    if (buttons[q].b == 'about') {
       buttons[q].o = true;
       buttons[q].draw();
     }
@@ -449,8 +449,8 @@ function menu() {
   context.fillText('The game', width / 2, 270 + 30);
   context.fillStyle = '#345C31';
   context.fillText('Menu', width / 2, 10);
-  for(let q = buttons.length - 1; q >= 0; q -= 1) {
-    if(buttons[q].b == 'menu') {
+  for (let q = buttons.length - 1; q >= 0; q -= 1) {
+    if (buttons[q].b == 'menu') {
       buttons[q].o = true;
       buttons[q].draw();
     }
@@ -487,23 +487,23 @@ function next4() {
   context.fillText('Next', width / 2, 270);
 }
 
-function levels() {
-  if(crocoMascot.drawable()) {
-    if(crocoMascot.dx + crocoMascot.dw <= 0 || crocoMascot.dx >= width) {
+export function levels() {
+  if (crocoMascot.drawable()) {
+    if (crocoMascot.dx + crocoMascot.dw <= 0 || crocoMascot.dx >= width) {
       setStage(gameOver);
     }
   }
-  if(tigerMascot.drawable()) {
-    if(tigerMascot.dx + tigerMascot.dw <= 0 || tigerMascot.dx >= width) {
+  if (tigerMascot.drawable()) {
+    if (tigerMascot.dx + tigerMascot.dw <= 0 || tigerMascot.dx >= width) {
       setStage(gameOver);
     }
   }
-  if(currentLevelIndex == maps.length) {
+  if (currentLevelIndex == maps.length) {
     currentLevelIndex = 0;
   }
   clear();
   drawBackground();
-  if(t > 50) {
+  if (t > 50) {
     crocoMascot.collide();
     tigerMascot.collide();
     t = 0;
@@ -516,26 +516,26 @@ function levels() {
   tigerMascot.impact();
   tigerMascot.draw();
   drawMap(currentLevelIndex);
-  for(let q = enemies[currentLevelIndex].length - 1; q >= 0; q -= 1) {
+  for (let q = enemies[currentLevelIndex].length - 1; q >= 0; q -= 1) {
     enemies[currentLevelIndex][q].move();
     enemies[currentLevelIndex][q].look();
   }
   checkLives();
   checkKeys();
-  for(let q = crystals.length - 1; q >= 0; q -= 1) {
+  for (let q = crystals.length - 1; q >= 0; q -= 1) {
     crystals[q].draw();
   }
   gold();
-  if(info) {
+  if (info) {
     context.fillStyle = '#A71313';
     context.font = '12px monospace';
     context.fillText('To escape, you need to find three', width / 2, height / 2);
     context.fillText('crystals, green, yellow and blue.', width / 2, height / 2 + 25);
   }
-  for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
+  for (let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
     let tile = tiles[currentLevelIndex][q];
-    if(tile.type !== 'door') continue;
-    if(tile.type == 'door' && !tile.drawable) {
+    if (tile.type !== 'door') continue;
+    if (tile.type == 'door' && !tile.drawable) {
       info = false;
     }
   }
@@ -551,8 +551,8 @@ function gameOver() {
   context.fillText(`Levels completed: ${currentLevelIndex}.`, width / 2, 270 + 50);
   context.fillText('Thank you for playing my game.', width / 2, 270 + 75);
   context.fillText(':)', width / 2, 270 + 100);
-  for(let q = buttons.length - 1; q >= 0; q -= 1) {
-    if(buttons[q].b == 'gameOver') {
+  for (let q = buttons.length - 1; q >= 0; q -= 1) {
+    if (buttons[q].b == 'gameOver') {
       buttons[q].o = true;
       buttons[q].draw();
     }

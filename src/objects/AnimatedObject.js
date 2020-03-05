@@ -10,7 +10,7 @@ export class AnimatedObject {
     this.elapsed = 0;
     this.al = al;
     this.as = as;
-    this.framesQ = this.frames[this.state].frames.length;
+    this.framesQuantity = this.frames[this.state].frames.length;
     this.frame = 0;
   };
   draw() {
@@ -25,9 +25,9 @@ export class AnimatedObject {
       this.dw,
       this.dh
     );
-    if(this.elapsed >= this.al) {
+    if (this.elapsed >= this.al) {
       this.frame += 1;
-      this.frame = this.frame >= this.framesQ ? 0 : this.frame;
+      this.frame = this.frame >= this.framesQuantity ? 0 : this.frame;
       this.elapsed = 0;
     }
     this.elapsed += this.as;

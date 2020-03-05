@@ -21,5 +21,5 @@ function loop() {
 export function setStage(callback) {
   game = callback;
   
-  // init();
+  init();
 }

@@ -1,11 +1,18 @@
+import { options } from './options';
+import { collision } from '../utils';
 
+const crocoMascot = options.crocoMascot;
+const tigerMascot = options.tigerMascot;
+const height = options.height;
+const tiles = options.tiles;
+const currentLevelIndex = options.currentLevelIndex;
 
 export class LandMonster extends AnimatedObject {
   move() {
-    if(crocoMascot.drawable()) {
+    if (crocoMascot.drawable()) {
       this.dx -= crocoMascot.vx;
     }
-    if(tigerMascot.drawable()) {
+    if (tigerMascot.drawable()) {
       this.dx -= tigerMascot.vx;
     }
   };
@@ -13,10 +20,10 @@ export class LandMonster extends AnimatedObject {
     return this.dx > 0 && this.dx + this.dw < height;
   }
   impact() { //
-    if(this.drawable()) {
-      for(let q = tiles.length - 1; q >= 0; q -= 1) {
-        if(tiles[currentLevelIndex][q].drawable) {
-          if(collision(this, tiles[currentLevelIndex][q]) == 'left' ||
+    if (this.drawable()) {
+      for (let q = tiles.length - 1; q >= 0; q -= 1) {
+        if (tiles[currentLevelIndex][q].drawable) {
+          if (collision(this, tiles[currentLevelIndex][q]) == 'left' ||
             collision(this, tiles[currentLevelIndex][q]) == 'right') {
             this.vx *= -1;
           } else {
@@ -27,20 +34,20 @@ export class LandMonster extends AnimatedObject {
     }
   };
   look() {
-    if(this.drawable()) {
-      if(crocoMascot.drawable()) {
-        if(this.dx > crocoMascot.dx) {
+    if (this.drawable()) {
+      if (crocoMascot.drawable()) {
+        if (this.dx > crocoMascot.dx) {
           this.state = 'idleL';
         }
-        if(this.dx < crocoMascot.dx) {
+        if (this.dx < crocoMascot.dx) {
           this.state = 'idleR';
         }
       }
-      if(tigerMascot.drawable()) {
-        if(this.dx > tigerMascot.dx) {
+      if (tigerMascot.drawable()) {
+        if (this.dx > tigerMascot.dx) {
           this.state = 'idleL';
         }
-        if(this.dx < tigerMascot.dx) {
+        if (this.dx < tigerMascot.dx) {
           this.state = 'idleR';
         }
       }

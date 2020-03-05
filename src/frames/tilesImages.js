@@ -1,5 +1,5 @@
-import { options } from "../options";
-import { lm0Frames, lm1Frames, lm2Frames, lm3Frames } from "./LM_frames";
+import { options } from '../options';
+import { lm0Frames, lm1Frames, lm2Frames, lm3Frames } from './LM_frames';
 
 const images = options.images;
 options.lm0Frames = lm0Frames;

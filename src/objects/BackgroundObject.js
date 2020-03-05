@@ -1,4 +1,9 @@
-import { DrawableObject } from "./DrawableObject";
+import { DrawableObject } from './DrawableObject';
+import { options } from '../options';
+
+const crocoMascot = options.crocoMascot;
+const tigerMascot = options.tigerMascot;
+const width = options.width;
 
 export class BackgroundObject extends DrawableObject {
   draw() {
@@ -27,13 +32,13 @@ export class BackgroundObject extends DrawableObject {
     );
   };
   move() {
-    if(crocoMascot.drawable()) {
+    if (crocoMascot.drawable()) {
       this.dx += this.s * -crocoMascot.vx / 2;
     }
-    if(tigerMascot.drawable()) {
+    if (tigerMascot.drawable()) {
       this.dx += this.s * -tigerMascot.vx / 2;
     }
-    if(this.dx + this.dw <= 0 || this.dx >= width) {
+    if (this.dx + this.dw <= 0 || this.dx >= width) {
       this.dx = 0;
     }
   };

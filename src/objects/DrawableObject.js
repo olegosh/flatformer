@@ -13,7 +13,7 @@ export class DrawableObject {
     this.drawable = true;
   };
   draw() {
-    if(this.drawable) {
+    if (this.drawable) {
       context.drawImage(
         this.src,
         this.sx,
