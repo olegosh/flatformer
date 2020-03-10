@@ -1,4 +1,7 @@
-let game;
+import { init } from './levels';
+import { options } from './options';
+
+let game = options.game;
 
 export function startGame(callback) {
   if (callback) {
@@ -21,5 +24,5 @@ function loop() {
 export function setStage(callback) {
   game = callback;
   
-  init();
+  // init();
 }

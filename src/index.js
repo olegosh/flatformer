@@ -1,10 +1,11 @@
 import './index.css';
 import sources from './sources';
-import maps from './maps';
+import { maps } from './maps';
 import { startGame, setStage } from './engine';
 import { FrameCounter } from './fps';
 import { loadImages } from './loaders';
 import { options } from './options';
+import { levels, define } from './levels';
 
 const $loading = options.$loading;
 const $canvas = options.$canvas = document.getElementById('canvas');
@@ -25,10 +26,13 @@ const testLevel = () => {
   x = x > 600 ? 0 : x;
 };
 
-loadImages(onImagesLoad);
+// loadImages(onImagesLoad);
 
 function onImagesLoad() {
-  setStage(testLevel);
+  setStage(levels);
+  define();
   $loading.style.display = 'none';
   startGame();
 }
+
+window.addEventListener('load', () => loadImages(onImagesLoad));

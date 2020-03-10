@@ -1,8 +1,15 @@
 import { options } from './options';
-
-import { crocoMascotFrames } from './frames/CM_frames';
-import { tigerMascotFrames } from './frames/TM_frames';
+// import { crocoMascotFrames } from './frames/CM_frames';
+// import { tigerMascotFrames } from './frames/TM_frames';
 import { setStage } from './engine';
+import { BackgroundObject } from './objects/BackgroundObject';
+import { CloudObject } from './objects/CloudObject';
+import { DrawableObject } from './objects/DrawableObject';
+import { TileObject } from './objects/TileObject';
+import { Mascot } from './objects/Mascot';
+import { maps } from './maps';
+import { tilesImages } from './frames/tilesImages';
+import { LandMonster } from './objects/LandMonster';
 
 const images = options.images;
 const BGIW = options.BGIW;
@@ -14,8 +21,9 @@ const TIH = options.TIH;
 const crystals = options.crystals;
 const crystalKeys = options.crystalKeys;
 const enemies = options.enemies;
-const maps = options.maps;
+options.maps = maps;
 const tiles = options.tiles;
+options.tilesImages = tilesImages;
 const context = options.context;
 let health = options.health;
 let t = options.t;
@@ -23,105 +31,466 @@ let currentLevelIndex = options.currentLevelIndex;
 let score = options.score;
 let info = options.info;
 
-const bgImg0 = new BackgroundObject(images[0], 0, 0, BGIW, BGIH, 0, 0, width, height, 2);
-const bgImg1 = new BackgroundObject(images[1], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.8);
-const bgImg2 = new BackgroundObject(images[2], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.6);
-const bgImg3 = new BackgroundObject(images[3], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.4);
-const bgImg4 = new BackgroundObject(images[4], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.2);
-const bgImg5 = new BackgroundObject(images[5], 0, 0, BGIW, BGIH, 0, 0, width, height, 1);
-const bgImg6 = new BackgroundObject(images[6], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.8);
-const bgImg7 = new CloudObject(images[7], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.6);
-const bgImg8 = new CloudObject(images[8], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.4);
-const bgImg9 = new CloudObject(images[9], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.2);
-const bgImg10 = new BackgroundObject(images[10], 0, 0, BGIW, BGIH, 0, 0, width, height, 0);
-const bgImg11 = new BackgroundObject(images[11], 0, 0, BGIW, BGIH, 0, -height, width, height, 0);
-const bgImg12 = new BackgroundObject(images[12], 0, 0, BGIW, BGIH, 0, height, width, height, 2);
 
-const crocoMascot = options.crocoMascot = new Mascot(
-  'crocodile',
-  crocoMascotFrames,
-  crocoMascotFrames.idleR.sw / 8 + 10,
-  height + crocoMascotFrames.idleR.sh / 4 - 10,
-  TIW / 4 - 4,
-  crocoMascotFrames.idleR.sh / 8 - 4,
-  4,
-  'jumpFR',
-  500,
-  50
-);
+let bgImg0;
+let bgImg1;
+let bgImg2;
+let bgImg3;
+let bgImg4;
+let bgImg5;
+let bgImg6;
+let bgImg7;
+let bgImg8;
+let bgImg9;
+let bgImg10;
+let bgImg11;
+let bgImg12;
 
-const tigerMascot = options.tigerMascot = new Mascot(
-  'tiger',
-  tigerMascotFrames,
-  tigerMascotFrames.idleR.sw / 8 + 10,
-  height - tigerMascotFrames.idleR.sh / 4 - 10,
-  TIW / 4 - 4,
-  crocoMascotFrames.idleR.sh / 8 - 4, //croco!
-  4,
-  'jumpFR',
-  500,
-  50
-);
+let crocoMascot;
+let tigerMascot;
 
-//lives
-for (let q = 0; q < health; q += 100) {
-  crystals.push(
-    new DrawableObject(
-      images[40],
-      0,
-      0,
-      128,
-      128,
-      q / 100 * TIW / 4,
-      TIW / 4,
-      TIW / 4,
-      TIH / 4,
-      0
-    )
+let crocoMascotFrames;
+let tigerMascotFrames;
+
+let lm0Frames;
+let lm1Frames;
+let lm2Frames;
+let lm3Frames;
+
+let greenCrystalKey;
+let yellowCrystalKey;
+let blueCrystalKey;
+
+export function define() {
+  bgImg0 = new BackgroundObject(images[0], 0, 0, BGIW, BGIH, 0, 0, width, height, 2);
+  bgImg1 = new BackgroundObject(images[1], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.8);
+  bgImg2 = new BackgroundObject(images[2], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.6);
+  bgImg3 = new BackgroundObject(images[3], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.4);
+  bgImg4 = new BackgroundObject(images[4], 0, 0, BGIW, BGIH, 0, 0, width, height, 1.2);
+  bgImg5 = new BackgroundObject(images[5], 0, 0, BGIW, BGIH, 0, 0, width, height, 1);
+  bgImg6 = new BackgroundObject(images[6], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.8);
+  bgImg7 = new CloudObject(images[7], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.6);
+  bgImg8 = new CloudObject(images[8], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.4);
+  bgImg9 = new CloudObject(images[9], 0, 0, BGIW, BGIH, 0, 0, width, height, 0.2);
+  bgImg10 = new BackgroundObject(images[10], 0, 0, BGIW, BGIH, 0, 0, width, height, 0);
+  bgImg11 = new BackgroundObject(images[11], 0, 0, BGIW, BGIH, 0, -height, width, height, 0);
+  bgImg12 = new BackgroundObject(images[12], 0, 0, BGIW, BGIH, 0, height, width, height, 2);
+
+  //frames
+  crocoMascotFrames = {
+    idleR: {
+      frames: [
+        images[13],
+        images[13],
+        images[14],
+        images[14]
+      ],
+      sw: 304,
+      sh: 410
+    },
+    idleL: {
+      frames: [
+        images[15],
+        images[15],
+        images[16],
+        images[16]
+      ],
+      sw: 304,
+      sh: 410
+    },
+    jumpFR: {
+      frames: [
+        images[19],
+        images[19],
+        images[19],
+        images[19]
+      ],
+      sw: 304,
+      sh: 447
+    },
+    jumpFL: {
+      frames: [
+        images[20],
+        images[20],
+        images[20],
+        images[20]
+      ],
+      sw: 304,
+      sh: 447
+    },
+    jumpUR: {
+      frames: [
+        images[21],
+        images[21],
+        images[21],
+        images[21]
+      ],
+      sw: 304,
+      sh: 447
+    },
+    jumpUL: {
+      frames: [
+        images[22],
+        images[22],
+        images[22],
+        images[22]
+      ],
+      sw: 304,
+      sh: 447
+    },
+    runR: {
+      frames: [
+        images[23],
+        images[24],
+        images[25],
+        images[26]
+      ],
+      sw: 307,
+      sh: 409
+    },
+    runL: {
+      frames: [
+        images[27],
+        images[28],
+        images[29],
+        images[30]
+      ],
+      sw: 307,
+      sh: 409
+    }
+  };
+
+  tigerMascotFrames = {
+    idleR: {
+      frames: [
+        images[55],
+        images[55],
+        images[56],
+        images[56]
+      ],
+      sw: 303,
+      sh: 431
+    },
+    idleL: {
+      frames: [
+        images[57],
+        images[57],
+        images[58],
+        images[58]
+      ],
+      sw: 303,
+      sh: 431
+    },
+    jumpFR: {
+      frames: [
+        images[59],
+        images[59],
+        images[59],
+        images[59]
+      ],
+      sw: 329,
+      sh: 458
+    },
+    jumpFL: {
+      frames: [
+        images[60],
+        images[60],
+        images[60],
+        images[60]
+      ],
+      sw: 329,
+      sh: 458
+    },
+    jumpUR: {
+      frames: [
+        images[61],
+        images[61],
+        images[61],
+        images[61]
+      ],
+      sw: 329,
+      sh: 458
+    },
+    jumpUL: {
+      frames: [
+        images[62],
+        images[62],
+        images[62],
+        images[62]
+      ],
+      sw: 329,
+      sh: 458
+    },
+    runR: {
+      frames: [
+        images[63],
+        images[64],
+        images[65],
+        images[66]
+      ],
+      sw: 307,
+      sh: 445
+    },
+    runL: {
+      frames: [
+        images[67],
+        images[68],
+        images[69],
+        images[70]
+      ],
+      sw: 307,
+      sh: 445
+    }
+  };
+
+  lm0Frames = {
+    idleL: {
+      frames: [
+        images[31],
+        images[31],
+        images[32],
+        images[32]
+      ],
+      sw: 212,
+      sh: 235
+    },
+    idleR: {
+      frames: [
+        images[46],
+        images[46],
+        images[47],
+        images[47]
+      ],
+      sw: 212,
+      sh: 235
+    }
+  };
+  
+  lm1Frames = {
+    idleL: {
+      frames: [
+        images[34],
+        images[34],
+        images[35],
+        images[35]
+      ],
+      sw: 582,
+      sh: 691
+    },
+    idleR: {
+      frames: [
+        images[48],
+        images[48],
+        images[49],
+        images[49]
+      ],
+      sw: 582,
+      sh: 691
+    }
+  };
+  
+  lm2Frames = {
+    idleL: {
+      frames: [
+        images[71],
+        images[72],
+        images[73],
+        images[74]
+      ],
+      sw: 382,
+      sh: 416
+    },
+    idleR: {
+      frames: [
+        images[75],
+        images[76],
+        images[77],
+        images[78]
+      ],
+      sw: 382,
+      sh: 416
+    }
+  };
+  
+  lm3Frames = {
+    idleL: {
+      frames: [
+        images[79],
+        images[79],
+        images[80],
+        images[80]
+      ],
+      sw: 535,
+      sh: 587
+    },
+    idleR: {
+      frames: [
+        images[81],
+        images[81],
+        images[82],
+        images[82]
+      ],
+      sw: 535,
+      sh: 587
+    }
+  };
+
+  crocoMascot = options.crocoMascot = new Mascot(
+    'crocodile',
+    crocoMascotFrames,
+    crocoMascotFrames.idleR.sw / 8 + 10,
+    height + crocoMascotFrames.idleR.sh / 4 - 10,
+    TIW / 4 - 4,
+    crocoMascotFrames.idleR.sh / 8 - 4,
+    4,
+    'jumpFR',
+    500,
+    50
   );
+  
+  tigerMascot = options.tigerMascot = new Mascot(
+    'tiger',
+    tigerMascotFrames,
+    tigerMascotFrames.idleR.sw / 8 + 10,
+    height - tigerMascotFrames.idleR.sh / 4 - 10,
+    TIW / 4 - 4,
+    crocoMascotFrames.idleR.sh / 8 - 4, //croco!
+    4,
+    'jumpFR',
+    500,
+    50
+  );
+
+  //lives
+  for (let q = 0; q < health; q += 100) {
+    crystals.push(
+      new DrawableObject(
+        images[40],
+        0,
+        0,
+        128,
+        128,
+        q / 100 * TIW / 4,
+        TIW / 4,
+        TIW / 4,
+        TIH / 4,
+        0
+      )
+    );
+  }
+
+  //keys
+  greenCrystalKey = new DrawableObject(
+    images[43],
+    0,
+    0,
+    128,
+    128,
+    width - TIW / 4,
+    TIH / 4 + 16,
+    TIW / 4,
+    TIH / 4,
+    0
+  );
+
+  yellowCrystalKey = new DrawableObject(
+    images[44],
+    0,
+    0,
+    128,
+    128,
+    width - TIW / 4,
+    TIH / 4 * 2 + 16,
+    TIW / 4,
+    TIH / 4,
+    0
+  );
+
+  blueCrystalKey = new DrawableObject(
+    images[45],
+    0,
+    0,
+    128,
+    128,
+    width - TIW / 4,
+    TIH / 4 * 3 + 16,
+    TIW / 4,
+    TIH / 4,
+    0
+  );
+
+  for (let i = 0; i < options.transformToEnemies.length; i += 1) {
+    let en = options.transformToEnemies[i];
+    options.enemies[en.name].push(
+      new LandMonster(
+        tilesImages[en.name].i,
+        en.dx,
+        en.dy,
+        en.dw,
+        en.dh,
+        en.s,
+        en.state,
+        en.al,
+        en.as
+      )
+    );
+  }
+
+  /*
+  options.transformToTiles.push({
+            currentIndex: Q,
+            type: tilesImages[map[qu][q]].t,
+            name: tilesImages[map[qu][q]].n,
+            index: Q,
+            args: [
+              map[qu][q],
+              0,
+              0,
+              TIW,
+              TIH,
+              q * TIW / 4,
+              qu * TIH / 4,
+              TIW / 4,
+              TIH / 4,
+              3
+            ]
+          });
+
+          tiles[Q].push(
+            new TileObject(
+              tilesImages[map[qu][q]].t,
+              tilesImages[map[qu][q]].n,
+              Q,
+              tilesImages[map[qu][q]].i,
+              0,
+              0,
+              TIW,
+              TIH,
+              q * TIW / 4,
+              qu * TIH / 4,
+              TIW / 4,
+              TIH / 4,
+              3
+            )
+          );
+  */
+
+  for(let i = 0; i < options.transformToTiles.length; i += 1) {
+    let ti = options.transformToTiles[i];
+    tiles[ti.currentIndex].push(
+      new TileObject(
+        ti.type,
+        ti.name,
+        ti.index,
+        ...ti.args
+      )
+    );
+  }
+
+  init();
 }
 
-//keys
-const greenCrystalKey = new DrawableObject(
-  images[43],
-  0,
-  0,
-  128,
-  128,
-  width - TIW / 4,
-  TIH / 4 + 16,
-  TIW / 4,
-  TIH / 4,
-  0
-);
-
-const yellowCrystalKey = new DrawableObject(
-  images[44],
-  0,
-  0,
-  128,
-  128,
-  width - TIW / 4,
-  TIH / 4 * 2 + 16,
-  TIW / 4,
-  TIH / 4,
-  0
-);
-
-const blueCrystalKey = new DrawableObject(
-  images[45],
-  0,
-  0,
-  128,
-  128,
-  width - TIW / 4,
-  TIH / 4 * 3 + 16,
-  TIW / 4,
-  TIH / 4,
-  0
-);
-
-init();
+// init();
 
 export function init() {
   crocoMascot.dx = crocoMascotFrames.idleR.sw / 8 + 10;
@@ -140,12 +509,13 @@ export function init() {
         if (map[qu] == '' || map[qu][q] == ' ') {
           continue;
         } else {
-          tiles[Q].push(
-            new TileObject(
-              tilesImages[map[qu][q]].t,
-              tilesImages[map[qu][q]].n,
-              Q,
-              tilesImages[map[qu][q]].i,
+          options.transformToTiles.push({
+            currentIndex: Q,
+            type: tilesImages[map[qu][q]].t,
+            name: tilesImages[map[qu][q]].n,
+            index: Q,
+            args: [
+              map[qu][q],
               0,
               0,
               TIW,
@@ -155,11 +525,75 @@ export function init() {
               TIW / 4,
               TIH / 4,
               3
-            )
-          );
+            ]
+          });
+
+          // tiles[Q].push(
+          //   new TileObject(
+          //     tilesImages[map[qu][q]].t,
+          //     tilesImages[map[qu][q]].n,
+          //     Q,
+          //     tilesImages[map[qu][q]].i,
+          //     0,
+          //     0,
+          //     TIW,
+          //     TIH,
+          //     q * TIW / 4,
+          //     qu * TIH / 4,
+          //     TIW / 4,
+          //     TIH / 4,
+          //     3
+          //   )
+          // );
         }
       }
     }
+    //
+    /*
+    options.transformToEnemies.push({
+      name: this.name,
+      dx: this.dx,
+      dy: this.dy,
+      dw: TIW / 4,
+      dh: TIH / 4,
+      s: 0,
+      state: 'idleL',
+      al: random(500, 1000),
+      as: random(20, 100)
+    });
+    */
+    
+    // for (let i = 0; i < options.trasformToEnemies.length; i += 1) {
+    //   let en = options.trasformToEnemies[i];
+    //   options.enemies[en.name].push(
+    //     new LandMonster(
+    //       tilesImages[en.name].i,
+    //       en.dx,
+    //       en.dy,
+    //       en.dw,
+    //       en.dh,
+    //       en.s,
+    //       en.state,
+    //       en.al,
+    //       en.as
+    //     )
+    //   );
+    // }
+
+    // enemies[this.index].push(
+    //   new LandMonster(
+    //     tilesImages[this.name].i,
+    //     this.dx,
+    //     this.dy,
+    //     TIW / 4,
+    //     TIH / 4,
+    //     0,
+    //     'idleL',
+    //     random(500, 1000),
+    //     random(20, 100)
+    //   )
+    // );
+
   }
 }
 
@@ -274,7 +708,7 @@ function checkLives() {
   }
   if (health <= 0) {
     setStage(gameOver);
-    init();
+    // init();
     health = 1E3;
     for (let q = 0; q < health; q += 100) {
       crystals.push(
@@ -558,3 +992,5 @@ function gameOver() {
     }
   }
 }
+
+// init();

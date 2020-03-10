@@ -1,5 +1,6 @@
-import { options } from './options';
+import { options } from '../options';
 import { collision } from '../utils';
+import { AnimatedObject } from './AnimatedObject';
 
 const crocoMascot = options.crocoMascot;
 const tigerMascot = options.tigerMascot;

@@ -1,15 +1,18 @@
 import { options } from '../options';
 import { setStage } from '../engine';
 import { collider, collision } from '../utils';
+import { AnimatedObject } from './AnimatedObject';
 
 const keys = options.keys;
 const height = options.height;
-const tiles = options.tiles;
+// const tiles = options.tiles;
 let currentLevelIndex = options.currentLevelIndex;
 const enemies = options.enemies;
 const crystalKeys = options.crystalKeys;
 const crocoMascot = options.crocoMascot;
 const tigerMascot = options.tigerMascot;
+const friction = options.friction;
+const gravity = options.gravity;
 
 export class Mascot extends AnimatedObject {
   constructor(type, ...args) {
@@ -92,6 +95,7 @@ export class Mascot extends AnimatedObject {
   impact() {
     if (!this.drawable()) return;
     this.canJump = false;
+    const tiles = options.tiles;
     //collision detection
     for (let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
       let tile = tiles[currentLevelIndex][q];
@@ -145,6 +149,7 @@ export class Mascot extends AnimatedObject {
       }
     }
     //crysal keys
+    const tiles = options.tiles;
     for (let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
       let tile = tiles[currentLevelIndex][q];
       if (!tile.drawable && tile.type !== 'greenKey' && tile.type !== 'yellowKey' && tile.type !== 'blueKey') {

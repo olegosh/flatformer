@@ -1,3 +1,5 @@
+import { options } from '../options';
+
 export class AnimatedObject {
   constructor(frames, dx, dy, dw, dh, s, state, al, as) {
     this.frames = frames;
@@ -14,7 +16,7 @@ export class AnimatedObject {
     this.frame = 0;
   };
   draw() {
-    context.drawImage(
+    options.context.drawImage(
       this.frames[this.state].frames[this.frame],
       0,
       0,

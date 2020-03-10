@@ -1,3 +1,5 @@
+import { options } from '../options';
+
 export class DrawableObject {
   constructor(src, sx, sy, sw, sh, dx, dy, dw, dh, s) {
     this.src = src;
@@ -13,6 +15,7 @@ export class DrawableObject {
     this.drawable = true;
   };
   draw() {
+    const context = options.context;
     if (this.drawable) {
       context.drawImage(
         this.src,
