@@ -64,6 +64,42 @@ const plugins = () => {
       {
         from: path.resolve(__dirname, 'src/favicon.ico'),
         to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/sources.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/maps.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/global.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/classes.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/definition.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/functions.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/game.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/cycle.js'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'src/events.js'),
+        to: path.resolve(__dirname, 'dist')
       }
     ]),
     new MiniCssExtractPlugin({

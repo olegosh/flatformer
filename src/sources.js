@@ -1,4 +1,4 @@
-export const sources = [
+const sources = [
   'https://i.imgur.com/NTC3dtw.png',
   'https://i.imgur.com/zM5eroW.png',
   'https://i.imgur.com/Yy3mdVL.png',

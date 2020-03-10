@@ -1,4 +1,4 @@
-export const maps = [
+const maps = [
   [
     'bbbbbbababababbbbbbffbbabbbbaaaaaaaaaaagababbabbbabababbabafabbababbbbbbbbfgaaaaaababbaabbabababbabgf',
     'aj                 s                                                  fccacg                       fg',
