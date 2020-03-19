@@ -12,6 +12,7 @@ class DrawableObject {
     this.s = s;
     this.drawable = true;
   };
+
   draw() {
     if(this.drawable) {
       context.drawImage(
@@ -27,10 +28,10 @@ class DrawableObject {
       );
     }
   };
-  move() {
-    //
-  };
 };
+
+////////
+
 class BackgroundObject extends DrawableObject {
   draw() {
     super.draw();
@@ -57,6 +58,7 @@ class BackgroundObject extends DrawableObject {
       this.dh
     );
   };
+
   move() {
     if(crocoMascot.drawable()) {
       this.dx += this.s * -crocoMascot.vx / 2;
@@ -69,6 +71,7 @@ class BackgroundObject extends DrawableObject {
     }
   };
 };
+
 class CloudObject extends BackgroundObject {
   move() {
     this.dx += this.s;
@@ -77,6 +80,9 @@ class CloudObject extends BackgroundObject {
     }
   };
 };
+
+////////
+
 class TileObject extends DrawableObject {
   constructor(type, name, index, ...args) {
     super(...args);
@@ -99,6 +105,7 @@ class TileObject extends DrawableObject {
       );
     }
   };
+
   draw() {
     if(this.type !== 'enemy') {
       super.draw();
@@ -108,6 +115,7 @@ class TileObject extends DrawableObject {
       }
     }
   };
+
   move() {
     if(crocoMascot.drawable()) {
       this.dx -= crocoMascot.vx;
@@ -117,6 +125,9 @@ class TileObject extends DrawableObject {
     }
   };
 };
+
+////////
+
 class AnimatedObject {
   constructor(frames, dx, dy, dw, dh, s, state, al, as) {
     this.frames = frames;
@@ -132,6 +143,7 @@ class AnimatedObject {
     this.framesQ = this.frames[this.state].frames.length;
     this.frame = 0;
   };
+
   draw() {
     context.drawImage(
       this.frames[this.state].frames[this.frame],
@@ -151,8 +163,10 @@ class AnimatedObject {
     }
     this.elapsed += this.as;
   };
-  //move() {};
 };
+
+////////
+
 class Mascot extends AnimatedObject {
   constructor(type, ...args) {
     super(...args);
@@ -164,9 +178,11 @@ class Mascot extends AnimatedObject {
     this.dirR = true;
     this.dirL = false;
   };
+
   drawable() {
     return (this.dy > 0 && this.dy + this.dh < height + 16);
   };
+
   move() {
     if(this.drawable()) {
       if(keys[32]) { //space key
@@ -231,6 +247,7 @@ class Mascot extends AnimatedObject {
       this.dy += this.vy;
     }
   };
+
   impact() {
     if(!this.drawable()) return;
     this.canJump = false;
@@ -278,6 +295,7 @@ class Mascot extends AnimatedObject {
       }
     }
   };
+
   collide() {
     if(!this.drawable()) return;
     //enemies
@@ -375,6 +393,9 @@ class Mascot extends AnimatedObject {
     }
   };
 };
+
+////////
+
 class LandMonster extends AnimatedObject {
   move() {
     if(crocoMascot.drawable()) {
@@ -384,10 +405,12 @@ class LandMonster extends AnimatedObject {
       this.dx -= tigerMascot.vx;
     }
   };
+
   drawable() {
     return this.dx > 0 && this.dx + this.dw < height;
   }
-  impact() { //
+
+  impact() {
     if(this.drawable()) {
       for(let q = tiles.length - 1; q >= 0; q -= 1) {
         if(tiles[currentLevelIndex][q].drawable) {
@@ -401,6 +424,7 @@ class LandMonster extends AnimatedObject {
       }
     }
   };
+
   look() {
     if(this.drawable()) {
       if(crocoMascot.drawable()) {

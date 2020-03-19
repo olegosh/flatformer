@@ -24,6 +24,7 @@ function drawBackground() {
   bgImg0.draw(); //ground
   bgImg12.draw(); //rground
 }
+
 function drawSky() {
   bgImg9.move();
   bgImg8.move();
@@ -34,6 +35,7 @@ function drawSky() {
   bgImg8.draw();
   bgImg7.draw();
 }
+
 function drawMap(index) {
   for(let q = tiles[index].length - 1; q >= 0; q -= 1) {
     if(tiles[index][q].dx < -tiles[index][q].dw ||
@@ -48,6 +50,7 @@ function drawMap(index) {
     tiles[index][q].draw();
   }
 }
+
 function checkLives() {
   switch(health) {
     case 900: crystals.splice(9, 1); break;
@@ -86,6 +89,7 @@ function checkLives() {
   context.fillStyle = '#FF5959';
   context.fillText(`Lives: ${health}`, width / 2, TIH / 2 + 16);
 }
+
 function checkKeys() {
   if(crystalKeys.g) {
     greenCrystalKey.draw();
@@ -97,25 +101,15 @@ function checkKeys() {
     blueCrystalKey.draw();
   }
 }
+
 const WIH = window.innerHeight;
 buttons.push(
   new Button(
     50,
-    20,//WIH / 2 + 20,
+    20,
     'Start journey',
     function() {
       setStage(story);
-    },
-    'menu'
-  )
-);/*
-buttons.push(
-  new Button(
-    50,
-    80,//WIH / 2 + 80,
-    'Controls',
-    function() {
-      setStage(controls);
     },
     'menu'
   )
@@ -123,18 +117,7 @@ buttons.push(
 buttons.push(
   new Button(
     50,
-    140,//WIH / 2 + 140,
-    'About',
-    function() {
-      setStage(about);
-    },
-    'menu'
-  )
-);*/
-buttons.push(
-  new Button(
-    50,
-    200,//WIH / 2 + 200,
+    200,
     'Next',
     function() {
       setStage(menu);
@@ -145,7 +128,7 @@ buttons.push(
 buttons.push(
   new Button(
     50,
-    200,//WIH / 2 + 200,
+    200,
     'Next',
     function() {
       setStage(menu);
@@ -156,7 +139,7 @@ buttons.push(
 buttons.push(
   new Button(
     50,
-    200,//WIH / 2 + 200,
+    200,
     'Got it',
     function() {
       setStage(levels);
@@ -167,7 +150,7 @@ buttons.push(
 buttons.push(
   new Button(
     50,
-    200,//WIH / 2 + 200,
+    200,
     'Menu',
     function() {
       setStage(menu);
@@ -175,6 +158,7 @@ buttons.push(
     'gameOver'
   )
 );
+
 function story() {
   clear();
   drawSky();
@@ -197,6 +181,7 @@ function story() {
   score = 0;
   currentLevelIndex = 0;
 }
+
 function controls() {
   clear();
   drawSky();
@@ -218,6 +203,7 @@ function controls() {
     }
   }
 }
+
 function about() {
   clear();
   drawSky();
@@ -238,6 +224,7 @@ function about() {
     }
   }
 }
+
 function menu() {
   clear();
   drawBackground();
@@ -256,6 +243,7 @@ function menu() {
     }
   }
 }
+
 function next0() {
   clear();
   drawSky();
@@ -281,51 +269,69 @@ function next4() {
   drawSky();
   context.fillText('Next', width / 2, 270);
 }
+
+////////
+////////
+
 function levels() {
   if(crocoMascot.drawable()) {
     if(crocoMascot.dx + crocoMascot.dw <= 0 || crocoMascot.dx >= width) {
       setStage(gameOver);
     }
   }
+
   if(tigerMascot.drawable()) {
     if(tigerMascot.dx + tigerMascot.dw <= 0 || tigerMascot.dx >= width) {
       setStage(gameOver);
     }
   }
+
   if(currentLevelIndex == maps.length) {
     currentLevelIndex = 0;
   }
+
   clear();
+
   drawBackground();
+
   if(t > 50) {
     crocoMascot.collide();
     tigerMascot.collide();
     t = 0;
   }
   t += 1;
+
   crocoMascot.move();
   crocoMascot.impact();
   crocoMascot.draw();
+
   tigerMascot.move();
   tigerMascot.impact();
   tigerMascot.draw();
+
   drawMap(currentLevelIndex);
+
   for(let q = enemies[currentLevelIndex].length - 1; q >= 0; q -= 1) {
     enemies[currentLevelIndex][q].move();
     enemies[currentLevelIndex][q].look();
   }
+
   checkLives();
   checkKeys();
+
   for(let q = crystals.length - 1; q >= 0; q -= 1) {
     crystals[q].draw();
   }
+
   gold();
+
   if(info) {
     context.fillStyle = '#A71313';
     context.font = '12px monospace';
     context.fillText('To escape, you need to find three', width / 2, height / 2);
     context.fillText('crystals, green, yellow and blue.', width / 2, height / 2 + 25);
   }
+  
   for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
     let tile = tiles[currentLevelIndex][q];
     if(tile.type !== 'door') continue;
@@ -334,6 +340,10 @@ function levels() {
     }
   }
 }
+
+////////
+////////
+
 function gameOver() {
   clear();
   drawSky();

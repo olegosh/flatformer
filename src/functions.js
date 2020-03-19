@@ -1,6 +1,7 @@
 function random(min, max) {
   return Math.random() * (1 + max - min) + min ^ 0;
 }
+
 function collider(a, b) {
   const cax = a.dx + a.dw / 2;
   const cay = a.dy + a.dh / 2;
@@ -13,6 +14,7 @@ function collider(a, b) {
   else return (a.dx + a.dw >= b.dx && a.dx <= b.dx + b.dw &&
           a.dy + a.dh >= b.dy && a.dy <= b.dy + b.dh);
 }
+
 function collision(a, b) {
   let side = '';
   const cax = a.dx + a.dw / 2;
@@ -22,49 +24,50 @@ function collision(a, b) {
   const dx = cbx - cax;
   const dy = cby - cay;
   const d = Math.sqrt(dx * dx + dy * dy);
-  if(d > a.dh * 2) return side;
-  else {
-  let ahw = a.dw / 2;
-  let ahh = a.dh / 2;
-  let bhw = b.dw / 2;
-  let bhh = b.dh / 2;
-  let hw = ahw + bhw;
-  let hh = ahh + bhh;
-  let acx = a.dx + ahw;
-  let acy = a.dy + ahh;
-  let bcx = b.dx + bhw;
-  let bcy = b.dy + bhh;
-  let vx = acx - bcx;
-  let vy = acy - bcy;
-  //let side = '';
-  let avx = Math.abs(vx);
-  let avy = Math.abs(vy);
-  let offX = 0;
-  let offY = 0;
-  if(avx < hw && avy < hh) {
-    offX = hw - avx;
-    offY = hh - avy;
-    if(offX <= offY) {
-      if(vx > 0) {
-        side = 'left';
-        a.dx += offX;
+  if(d > a.dh * 2) {
+    return side;
+  } else {
+    let ahw = a.dw / 2;
+    let ahh = a.dh / 2;
+    let bhw = b.dw / 2;
+    let bhh = b.dh / 2;
+    let hw = ahw + bhw;
+    let hh = ahh + bhh;
+    let acx = a.dx + ahw;
+    let acy = a.dy + ahh;
+    let bcx = b.dx + bhw;
+    let bcy = b.dy + bhh;
+    let vx = acx - bcx;
+    let vy = acy - bcy;
+    let avx = Math.abs(vx);
+    let avy = Math.abs(vy);
+    let offX = 0;
+    let offY = 0;
+    if(avx < hw && avy < hh) {
+      offX = hw - avx;
+      offY = hh - avy;
+      if(offX <= offY) {
+        if(vx > 0) {
+          side = 'left';
+          a.dx += offX;
+        } else {
+          side = 'right';
+          a.dx -= offX;
+        }
       } else {
-        side = 'right';
-        a.dx -= offX;
-      }
-    } else {
-      if(vy > 0) {
-        side = 'top';
-        a.dy += offY;
-      } else {
-        side = 'bottom';
-        a.dy -= offY;
+        if(vy > 0) {
+          side = 'top';
+          a.dy += offY;
+        } else {
+          side = 'bottom';
+          a.dy -= offY;
+        }
       }
     }
-  }
-  return side;
+    return side;
   }
 }
+
 function init() {
   crocoMascot.dx = crocoMascotFrames.idleR.sw / 8 + 10;
   crocoMascot.dy = height + crocoMascotFrames.idleR.sh / 4 - 10;
@@ -104,9 +107,13 @@ function init() {
     }
   }
 }
+
 function clear() {
   context.clearRect(0, 0, width, height);
 }
+
+////////
+
 class Button {
   constructor(x, y, t, f, b) {
     this.x = x;
@@ -116,6 +123,7 @@ class Button {
     this.b = b;
     this.o = false;
   };
+
   draw() {
     context.strokeStyle = '#450856';
     context.fillStyle = 'rgba(255, 255, 255, 0.3)';
@@ -131,6 +139,7 @@ class Button {
     context.font = '12px monospace';
     context.fillText(this.t, width / 2, this.y + 25);
   };
+
   handle(x, y) {
     let WIW = window.innerWidth;
     if(x > this.x && x < WIW - 50 &&
@@ -139,6 +148,9 @@ class Button {
     }
   };
 };
+
+////////
+
 function gold() {
   context.fillStyle = '#D4AF37';
   context.font = '15px monospace';
