@@ -22,8 +22,8 @@ function loop() {
 
 function setStage(callback) {
   game = callback;
-  for(let q = buttons.length - 1; q >= 0; q -= 1) {
-    buttons[q].o = false;
+  for (let i = buttons.length - 1; i >= 0; i -= 1) {
+    buttons[i].o = false;
   }
   init();
 }
@@ -31,34 +31,34 @@ function setStage(callback) {
 function startClicking(e) {
   e.preventDefault();
   e.stopPropagation();
-  if(game.name == 'menu') {
+  if (game.name == 'menu') {
     setStage(next0);
-  } else if(game.name == 'next0') {
+  } else if (game.name == 'next0') {
    setStage(controls);
-  } else if(game.name == 'controls') {
+  } else if (game.name == 'controls') {
     setStage(next1);
-  } else if(game.name == 'next1') {
+  } else if (game.name == 'next1') {
    setStage(about);
-  } else if(game.name == 'about') {
+  } else if (game.name == 'about') {
     setStage(next2);
-  } else if(game.name == 'next2') {
+  } else if (game.name == 'next2') {
    setStage(story);
-  } else if(game.name == 'story') {
+  } else if (game.name == 'story') {
     setStage(next3);
-  } else if(game.name == 'next3') {
+  } else if (game.name == 'next3') {
    setStage(levels);
-  } else if(game.name == 'gameOver') {
+  } else if (game.name == 'gameOver') {
     setStage(next4);
-  } else if(game.name == 'next4') {
+  } else if (game.name == 'next4') {
    setStage(menu);
   }
 
   const WIW = window.innerWidth;
-  if(e.pageX > 0 && e.pageX < WIW / 3) {
+  if (e.pageX > 0 && e.pageX < WIW / 3) {
     //left
     moving = true;
     keys[37] = true;
-  } else if(e.pageX > WIW / 3 && e.pageX < WIW - WIW / 3) {
+  } else if (e.pageX > WIW / 3 && e.pageX < WIW - WIW / 3) {
     //jump
     moving = true;
     keys[32] = true;
@@ -72,33 +72,33 @@ function startClicking(e) {
 function startTouching(e) {
   e.preventDefault();
   e.stopPropagation();
-  if(game.name == 'menu') {
+  if (game.name == 'menu') {
     setStage(next0);
-  } else if(game.name == 'next0') {
+  } else if (game.name == 'next0') {
    setStage(controls);
-  } else if(game.name == 'controls') {
+  } else if (game.name == 'controls') {
     setStage(next1);
-  } else if(game.name == 'next1') {
+  } else if (game.name == 'next1') {
    setStage(about);
-  } else if(game.name == 'about') {
+  } else if (game.name == 'about') {
     setStage(next2);
-  } else if(game.name == 'next2') {
+  } else if (game.name == 'next2') {
    setStage(story);
-  } else if(game.name == 'story') {
+  } else if (game.name == 'story') {
     setStage(next3);
-  } else if(game.name == 'next3') {
+  } else if (game.name == 'next3') {
    setStage(levels);
-  } else if(game.name == 'gameOver') {
+  } else if (game.name == 'gameOver') {
     setStage(next4);
-  } else if(game.name == 'next4') {
+  } else if (game.name == 'next4') {
    setStage(menu);
   }
   const WIW = window.innerWidth;
-  if(e.changedTouches[0].pageX > 0 && e.changedTouches[0].pageX < WIW / 3) {
+  if (e.changedTouches[0].pageX > 0 && e.changedTouches[0].pageX < WIW / 3) {
     //left
     moving = true;
     keys[37] = true;
-  } else if(e.changedTouches[0].pageX > WIW / 3 && e.changedTouches[0].pageX < WIW - WIW / 3) {
+  } else if (e.changedTouches[0].pageX > WIW / 3 && e.changedTouches[0].pageX < WIW - WIW / 3) {
     //jump
     moving = true;
     keys[32] = true;
@@ -112,13 +112,13 @@ function startTouching(e) {
 function endClicking(e) {
   e.preventDefault();
   const WIW = window.innerWidth;
-  if(e.pageX > 0 && e.pageX < WIW / 3) {
+  if (e.pageX > 0 && e.pageX < WIW / 3) {
     //left
     moving = false;
     crocoMascot.vx = 0;
     tigerMascot.vx = 0;
     keys[37] = false;
-  } else if(e.pageX > WIW / 3 && e.pageX < WIW - WIW / 3) {
+  } else if (e.pageX > WIW / 3 && e.pageX < WIW - WIW / 3) {
     //jump
     moving = false;
     crocoMascot.vx = 0;
@@ -136,13 +136,13 @@ function endClicking(e) {
 function endTouching(e) {
   e.preventDefault();
   const WIW = window.innerWidth;
-  if(e.changedTouches[0].pageX > 0 && e.changedTouches[0].pageX < WIW / 3) {
+  if (e.changedTouches[0].pageX > 0 && e.changedTouches[0].pageX < WIW / 3) {
     //left
     moving = false;
     crocoMascot.vx = 0;
     tigerMascot.vx = 0;
     keys[37] = false;
-  } else if(e.changedTouches[0].pageX > WIW / 3 && e.changedTouches[0].pageX < WIW - WIW / 3) {
+  } else if (e.changedTouches[0].pageX > WIW / 3 && e.changedTouches[0].pageX < WIW - WIW / 3) {
     //jump
     moving = false;
     crocoMascot.vx = 0;

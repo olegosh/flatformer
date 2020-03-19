@@ -10,7 +10,7 @@ function collider(a, b) {
   const dx = cbx - cax;
   const dy = cby - cay;
   const d = Math.sqrt(dx * dx + dy * dy);
-  if(d > a.dh * 2) return false;
+  if (d > a.dh * 2) return false;
   else return (a.dx + a.dw >= b.dx && a.dx <= b.dx + b.dw &&
           a.dy + a.dh >= b.dy && a.dy <= b.dy + b.dh);
 }
@@ -24,7 +24,7 @@ function collision(a, b) {
   const dx = cbx - cax;
   const dy = cby - cay;
   const d = Math.sqrt(dx * dx + dy * dy);
-  if(d > a.dh * 2) {
+  if (d > a.dh * 2) {
     return side;
   } else {
     let ahw = a.dw / 2;
@@ -43,11 +43,11 @@ function collision(a, b) {
     let avy = Math.abs(vy);
     let offX = 0;
     let offY = 0;
-    if(avx < hw && avy < hh) {
+    if (avx < hw && avy < hh) {
       offX = hw - avx;
       offY = hh - avy;
-      if(offX <= offY) {
-        if(vx > 0) {
+      if (offX <= offY) {
+        if (vx > 0) {
           side = 'left';
           a.dx += offX;
         } else {
@@ -55,7 +55,7 @@ function collision(a, b) {
           a.dx -= offX;
         }
       } else {
-        if(vy > 0) {
+        if (vy > 0) {
           side = 'top';
           a.dy += offY;
         } else {
@@ -76,27 +76,27 @@ function init() {
   crystalKeys.g = crystalKeys.y = crystalKeys.b = false;
   enemies.length = 0;
   tiles.length = 0;
-  for(let Q = 0; Q < maps.length; Q += 1) {
-    let map = maps[Q];
-    tiles[Q] = [];
-    enemies[Q] = [];
-    for(let qu = 0; qu < map.length; qu += 1) {
-      for(let q = 0; q < map[qu].length; q += 1) {
-        if(map[qu] == '' || map[qu][q] == ' ') {
+  for (let qty = 0; qty < maps.length; qty += 1) {
+    let map = maps[qty];
+    tiles[qty] = [];
+    enemies[qty] = [];
+    for (let y = 0; y < map.length; y += 1) {
+      for (let x = 0; x < map[y].length; x += 1) {
+        if (map[y] == '' || map[y][x] == ' ') {
           continue;
         } else {
-          tiles[Q].push(
+          tiles[qty].push(
             new TileObject(
-              tilesImages[map[qu][q]].t,
-              tilesImages[map[qu][q]].n,
-              Q,
-              tilesImages[map[qu][q]].i,
+              tilesImages[map[y][x]].t,
+              tilesImages[map[y][x]].n,
+              qty,
+              tilesImages[map[y][x]].i,
               0,
               0,
               TIW,
               TIH,
-              q * TIW / 4,
-              qu * TIH / 4,
+              x * TIW / 4,
+              y * TIH / 4,
               TIW / 4,
               TIH / 4,
               3
@@ -142,7 +142,7 @@ class Button {
 
   handle(x, y) {
     let WIW = window.innerWidth;
-    if(x > this.x && x < WIW - 50 &&
+    if (x > this.x && x < WIW - 50 &&
       y > this.y && y < this.y + 50) {
       this.f();
     }

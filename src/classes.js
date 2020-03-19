@@ -14,7 +14,7 @@ class DrawableObject {
   };
 
   draw() {
-    if(this.drawable) {
+    if (this.drawable) {
       context.drawImage(
         this.src,
         this.sx,
@@ -60,13 +60,13 @@ class BackgroundObject extends DrawableObject {
   };
 
   move() {
-    if(crocoMascot.drawable()) {
+    if (crocoMascot.drawable()) {
       this.dx += this.s * -crocoMascot.vx / 2;
     }
-    if(tigerMascot.drawable()) {
+    if (tigerMascot.drawable()) {
       this.dx += this.s * -tigerMascot.vx / 2;
     }
-    if(this.dx + this.dw <= 0 || this.dx >= width) {
+    if (this.dx + this.dw <= 0 || this.dx >= width) {
       this.dx = 0;
     }
   };
@@ -75,7 +75,7 @@ class BackgroundObject extends DrawableObject {
 class CloudObject extends BackgroundObject {
   move() {
     this.dx += this.s;
-    if(this.dx >= width) {
+    if (this.dx >= width) {
       this.dx = 0;
     }
   };
@@ -89,7 +89,7 @@ class TileObject extends DrawableObject {
     this.type = type;
     this.name = name;
     this.index = index;
-    if(this.type == 'enemy') {
+    if (this.type == 'enemy') {
       enemies[this.index].push(
         new LandMonster(
           tilesImages[this.name].i,
@@ -107,20 +107,20 @@ class TileObject extends DrawableObject {
   };
 
   draw() {
-    if(this.type !== 'enemy') {
+    if (this.type !== 'enemy') {
       super.draw();
     } else {
-      for(let q = 0; q < enemies[currentLevelIndex].length; q += 1) {
-        enemies[currentLevelIndex][q].draw();
+      for (let i = 0; i < enemies[currentLevelIndex].length; i += 1) {
+        enemies[currentLevelIndex][i].draw();
       }
     }
   };
 
   move() {
-    if(crocoMascot.drawable()) {
+    if (crocoMascot.drawable()) {
       this.dx -= crocoMascot.vx;
     }
-    if(tigerMascot.drawable()) {
+    if (tigerMascot.drawable()) {
       this.dx -= tigerMascot.vx;
     }
   };
@@ -156,7 +156,7 @@ class AnimatedObject {
       this.dw,
       this.dh
     );
-    if(this.elapsed >= this.al) {
+    if (this.elapsed >= this.al) {
       this.frame += 1;
       this.frame = this.frame >= this.framesQ ? 0 : this.frame;
       this.elapsed = 0;
@@ -184,64 +184,64 @@ class Mascot extends AnimatedObject {
   };
 
   move() {
-    if(this.drawable()) {
-      if(keys[32]) { //space key
-        if(!this.jumping && this.canJump) {
+    if (this.drawable()) {
+      if (keys[32]) { //space key
+        if (!this.jumping && this.canJump) {
           this.jumping = true;
           this.canJump = false;
           this.vy = -this.s * 2;
-          if(this.dirR) {
+          if (this.dirR) {
             this.state = 'jumpUR';
-          } else if(this.dirL) {
+          } else if (this.dirL) {
             this.state = 'jumpUL';
           }
         }
       }
-      if(keys[37]) { //left arrow key
-        if(this.vx > -this.s) {
+      if (keys[37]) { //left arrow key
+        if (this.vx > -this.s) {
           this.vx -= 1;
           this.dirL = true;
           this.dirR = false;
-          if(this.jumping) {
-            if(this.dirR) {
+          if (this.jumping) {
+            if (this.dirR) {
               this.state = 'jumpUR';
-            } else if(this.dirL) {
+            } else if (this.dirL) {
               this.state = 'jumpUL';
             }
           }
         }
       }
-      if(keys[39]) { //right arrow key
-        if(this.vx < this.s) {
+      if (keys[39]) { //right arrow key
+        if (this.vx < this.s) {
           this.vx += 1;
           this.dirR = true;
           this.dirL = false;
-          if(this.jumping) {
-            if(this.dirR) {
+          if (this.jumping) {
+            if (this.dirR) {
               this.state = 'jumpUR';
-            } else if(this.dirL) {
+            } else if (this.dirL) {
               this.state = 'jumpUL';
             }
           }
         }
       }
-      if(!this.canJump && !this.jumping && this.vy > 0) {
-        if(this.dirR) {
+      if (!this.canJump && !this.jumping && this.vy > 0) {
+        if (this.dirR) {
           this.state = 'jumpFR';
-        } else if(this.dirL) {
+        } else if (this.dirL) {
           this.state = 'jumpFL';
         }
       }
       if (this.canJump && !this.jumping && moving && Math.abs(this.vx) > 0) {
-        if(this.dirR) {
+        if (this.dirR) {
           this.state = 'runR';
-        } else if(this.dirL) {
+        } else if (this.dirL) {
           this.state = 'runL';
         }
       }
       this.vx *= friction;
       this.vy += gravity;
-      if(this.canJump) {
+      if (this.canJump) {
         this.vy = 0;
       }
       this.dy += this.vy;
@@ -249,12 +249,12 @@ class Mascot extends AnimatedObject {
   };
 
   impact() {
-    if(!this.drawable()) return;
+    if (!this.drawable()) return;
     this.canJump = false;
     //collision detection
-    for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-      let tile = tiles[currentLevelIndex][q];
-      if(tile.drawable && tile.type == 'lava' ||
+    for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+      let tile = tiles[currentLevelIndex][i];
+      if (tile.drawable && tile.type == 'lava' ||
         tile.drawable && tile.type == 'water' ||
         tile.drawable && tile.type == 'enemy' ||
         tile.drawable && tile.type == 'door' ||
@@ -271,24 +271,24 @@ class Mascot extends AnimatedObject {
         tile.drawable && tile.type == 'spike') {
         continue;
       }
-      if(tile.drawable) {
+      if (tile.drawable) {
         let side = collision(this, tile);
-        if(side == 'left' || side == 'right') {
+        if (side == 'left' || side == 'right') {
           this.vx = -this.vx;
           this.jumping = false;
-        } else if(side == 'bottom') {
+        } else if (side == 'bottom') {
           this.canJump = true;
           this.jumping = false;
-          if(this.dirR && this.vx == 0) {
+          if (this.dirR && this.vx == 0) {
             this.state = 'idleR';
-          } else if(this.dirL && this.vx == 0) {
+          } else if (this.dirL && this.vx == 0) {
             this.state = 'idleL';
           }
-        } else if(side == 'top') {
+        } else if (side == 'top') {
           this.vy /= -2;
-          if(this.dirR) {
+          if (this.dirR) {
             this.state = 'jumpFR';
-          } else if(this.dirL) {
+          } else if (this.dirL) {
             this.state = 'jumpFL';
           }
         }
@@ -297,38 +297,38 @@ class Mascot extends AnimatedObject {
   };
 
   collide() {
-    if(!this.drawable()) return;
+    if (!this.drawable()) return;
     //enemies
-    for(let q = enemies[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-      if(collider(this, enemies[currentLevelIndex][q])) {
+    for (let i = enemies[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+      if (collider(this, enemies[currentLevelIndex][i])) {
         health -= 10;
       }
     }
     //crysal keys
-    for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-      let tile = tiles[currentLevelIndex][q];
-      if(!tile.drawable && tile.type !== 'greenKey' && tile.type !== 'yellowKey' && tile.type !== 'blueKey') {
+    for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+      let tile = tiles[currentLevelIndex][i];
+      if (!tile.drawable && tile.type !== 'greenKey' && tile.type !== 'yellowKey' && tile.type !== 'blueKey') {
         continue;
-      } else if(tile.drawable && tile.type == 'greenKey' && collider(this, tile)) {
-        tiles[currentLevelIndex].splice(q, 1);
+      } else if (tile.drawable && tile.type == 'greenKey' && collider(this, tile)) {
+        tiles[currentLevelIndex].splice(i, 1);
         crystalKeys.g = true;
-      } else if(tile.drawable && tile.type == 'yellowKey' && collider(this, tile)) {
-        tiles[currentLevelIndex].splice(q, 1);
+      } else if (tile.drawable && tile.type == 'yellowKey' && collider(this, tile)) {
+        tiles[currentLevelIndex].splice(i, 1);
         crystalKeys.y = true;
-      } else if(tile.drawable && tile.type == 'blueKey' && collider(this, tile)) {
-        tiles[currentLevelIndex].splice(q, 1);
+      } else if (tile.drawable && tile.type == 'blueKey' && collider(this, tile)) {
+        tiles[currentLevelIndex].splice(i, 1);
         crystalKeys.b = true;
       }
     }
     //door
-    for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-      let tile = tiles[currentLevelIndex][q];
-      if(!tile.drawable) continue;
-      if(tile.drawable && tile.type !== 'door') continue;
-      if(tile.drawable && tile.type == 'door' && collider(this, tile)) {
-        if(crystalKeys.g && crystalKeys.y && crystalKeys.b) {
+    for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+      let tile = tiles[currentLevelIndex][i];
+      if (!tile.drawable) continue;
+      if (tile.drawable && tile.type !== 'door') continue;
+      if (tile.drawable && tile.type == 'door' && collider(this, tile)) {
+        if (crystalKeys.g && crystalKeys.y && crystalKeys.b) {
           currentLevelIndex += 1;
-          if(currentLevelIndex == maps.length) {
+          if (currentLevelIndex == maps.length) {
             currentLevelIndex = 0;
           }
           setStage(levels);
@@ -338,56 +338,56 @@ class Mascot extends AnimatedObject {
       }
     }
     //mushrooms
-    for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-      let tile = tiles[currentLevelIndex][q];
-      if(!tile.drawable) continue;
-      if(tile.drawable && tile.type !== 'mushroom') continue;
-      if(tile.drawable && tile.type == 'mushroom' && collider(this, tile)) {
-        tiles[currentLevelIndex].splice(q, 1);
+    for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+      let tile = tiles[currentLevelIndex][i];
+      if (!tile.drawable) continue;
+      if (tile.drawable && tile.type !== 'mushroom') continue;
+      if (tile.drawable && tile.type == 'mushroom' && collider(this, tile)) {
+        tiles[currentLevelIndex].splice(i, 1);
         //change characters
         [crocoMascot.dx, tigerMascot.dx] = [tigerMascot.dx, crocoMascot.dx];
         [crocoMascot.dy, tigerMascot.dy] = [tigerMascot.dy, crocoMascot.dy];
       }
     }
     //treasurechests
-    for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-      let tile = tiles[currentLevelIndex][q];
-      if(!tile.drawable) continue;
-      if(tile.drawable && tile.type !== 'treasurechest') continue;
-      if(tile.drawable && tile.type == 'treasurechest' && collider(this, tile)) {
-        tiles[currentLevelIndex].splice(q, 1);
+    for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+      let tile = tiles[currentLevelIndex][i];
+      if (!tile.drawable) continue;
+      if (tile.drawable && tile.type !== 'treasurechest') continue;
+      if (tile.drawable && tile.type == 'treasurechest' && collider(this, tile)) {
+        tiles[currentLevelIndex].splice(i, 1);
         //score++
         score += random(1E3, 1E4);
       }
     }
     //lava
-    if(this.type == 'crocodile') {
-      for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-        let tile = tiles[currentLevelIndex][q];
-        if(!tile.drawable) continue;
-        if(tile.drawable && tile.type !== 'lava') continue;
-        if(tile.drawable && tile.type == 'lava' && collider(this, tile)) {
+    if (this.type == 'crocodile') {
+      for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+        let tile = tiles[currentLevelIndex][i];
+        if (!tile.drawable) continue;
+        if (tile.drawable && tile.type !== 'lava') continue;
+        if (tile.drawable && tile.type == 'lava' && collider(this, tile)) {
           health -= 10;
         }
       }
     }
     //water
-    if(this.type == 'tiger') {
-      for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-        let tile = tiles[currentLevelIndex][q];
-        if(!tile.drawable) continue;
-        if(tile.drawable && tile.type !== 'water') continue;
-        if(tile.drawable && tile.type == 'water' && collider(this, tile)) {
+    if (this.type == 'tiger') {
+      for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+        let tile = tiles[currentLevelIndex][i];
+        if (!tile.drawable) continue;
+        if (tile.drawable && tile.type !== 'water') continue;
+        if (tile.drawable && tile.type == 'water' && collider(this, tile)) {
           health -= 10;
         }
       }
     }
     //spikes
-    for(let q = tiles[currentLevelIndex].length - 1; q >= 0; q -= 1) {
-      let tile = tiles[currentLevelIndex][q];
-      if(!tile.drawable) continue;
-      if(tile.drawable && tile.type !== 'spike') continue;
-      if(tile.drawable && tile.type == 'spike' && collider(this, tile)) {
+    for (let i = tiles[currentLevelIndex].length - 1; i >= 0; i -= 1) {
+      let tile = tiles[currentLevelIndex][i];
+      if (!tile.drawable) continue;
+      if (tile.drawable && tile.type !== 'spike') continue;
+      if (tile.drawable && tile.type == 'spike' && collider(this, tile)) {
         health -= 10;
       }
     }
@@ -398,10 +398,10 @@ class Mascot extends AnimatedObject {
 
 class LandMonster extends AnimatedObject {
   move() {
-    if(crocoMascot.drawable()) {
+    if (crocoMascot.drawable()) {
       this.dx -= crocoMascot.vx;
     }
-    if(tigerMascot.drawable()) {
+    if (tigerMascot.drawable()) {
       this.dx -= tigerMascot.vx;
     }
   };
@@ -411,11 +411,11 @@ class LandMonster extends AnimatedObject {
   }
 
   impact() {
-    if(this.drawable()) {
-      for(let q = tiles.length - 1; q >= 0; q -= 1) {
-        if(tiles[currentLevelIndex][q].drawable) {
-          if(collision(this, tiles[currentLevelIndex][q]) == 'left' ||
-            collision(this, tiles[currentLevelIndex][q]) == 'right') {
+    if (this.drawable()) {
+      for (let i = tiles.length - 1; i >= 0; i -= 1) {
+        if (tiles[currentLevelIndex][i].drawable) {
+          if (collision(this, tiles[currentLevelIndex][i]) == 'left' ||
+            collision(this, tiles[currentLevelIndex][i]) == 'right') {
             this.vx *= -1;
           } else {
             continue;
@@ -426,20 +426,20 @@ class LandMonster extends AnimatedObject {
   };
 
   look() {
-    if(this.drawable()) {
-      if(crocoMascot.drawable()) {
-        if(this.dx > crocoMascot.dx) {
+    if (this.drawable()) {
+      if (crocoMascot.drawable()) {
+        if (this.dx > crocoMascot.dx) {
           this.state = 'idleL';
         }
-        if(this.dx < crocoMascot.dx) {
+        if (this.dx < crocoMascot.dx) {
           this.state = 'idleR';
         }
       }
-      if(tigerMascot.drawable()) {
-        if(this.dx > tigerMascot.dx) {
+      if (tigerMascot.drawable()) {
+        if (this.dx > tigerMascot.dx) {
           this.state = 'idleL';
         }
-        if(this.dx < tigerMascot.dx) {
+        if (this.dx < tigerMascot.dx) {
           this.state = 'idleR';
         }
       }

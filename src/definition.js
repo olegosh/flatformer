@@ -1,15 +1,15 @@
 function loadImages(callback) {
-  for(let q = 0; q < sources.length; q += 1) {
+  for (let i = 0; i < sources.length; i += 1) {
     let image = document.createElement('img');
     images.push(image);
     image.addEventListener('load', () => {
       imagesCounter += 1;
       loading.textContent = `LOADING... ${imagesCounter}`;
-      if(imagesCounter >= imagesQ) {
+      if (imagesCounter >= imagesQ) {
         callback();
       }
     });
-    image.src = sources[q];
+    image.src = sources[i];
   }
 }
 
@@ -383,7 +383,7 @@ const tigerMascot = new Mascot(
 ////////
 //lives
 
-for(let q = 0; q < health; q += 100) {
+for (let i = 0; i < health; i += 100) {
   crystals.push(
     new DrawableObject(
       images[40],
@@ -391,7 +391,7 @@ for(let q = 0; q < health; q += 100) {
       0,
       128,
       128,
-      q / 100 * TIW / 4,
+      i / 100 * TIW / 4,
       TIW / 4,
       TIW / 4,
       TIH / 4,
