@@ -4,3 +4,6 @@ dist/
 
 #file
 stats.json
+package-lock.json
+.firebaserc
+firebase.json
